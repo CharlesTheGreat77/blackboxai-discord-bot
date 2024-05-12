@@ -1,6 +1,5 @@
 # blackboxai-discord-bot
-
-<p align="center"><img src="https://imgur.com/a/dO43tNI"></p>
+![deconstructbrain](https://github.com/CharlesTheGreat77/blackboxai-discord-bot/assets/27988707/1e636300-19c7-4579-88ef-b7d7121a9e71)
 
 AI based discord bot that simply sends a request to blackbox.ai's api and grabs a resposne with no api key needed.
 Why blackbox ai? Well aside from the free aspect in terms of their api usage, blackbox.ai also provides sources to the response(s) in which it derives the context from. This gives you an ai, and sources to follow up with for validation or in depth explanations.
