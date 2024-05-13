@@ -1,9 +1,12 @@
 import requests
 import json
+import re
+from typing import Optional, Tuple
 
-def blackbox_ai(question: str) -> str:
+def blackbox_ai(question: str) -> Optional[Tuple[str, str]]:
     '''
-    function to send request to blackbox.ai api and return response
+    function to send request to blackbox.ai api 
+    returns sources and response
     '''
     session = requests.Session()
     session.headers.update({'User-Agent':'Mozilla/5.0 (iPhone; CPU iPhone OS 17_4_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.4.1 Mobile/15E148 Safari/604.1'})
@@ -61,4 +64,8 @@ def blackbox_ai(question: str) -> str:
 
     response = requests.post('https://www.blackbox.ai/api/chat', headers=headers, cookies=cookies, json=data)
 
-    return response.text
+    match = re.search(r"Sources:(.*?)\n\n(.*)", response.text, re.DOTALL)
+    if match:
+        sources = match.group(1).strip()
+        response = match.group(2).strip()
+        return sources, response

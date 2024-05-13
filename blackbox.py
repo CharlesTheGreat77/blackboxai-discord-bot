@@ -11,11 +11,13 @@ async def on_message(message):
     
     if message.content.startswith('!blackbox'): # change as necessary
         request = message.content.replace('!blackbox ', '')
-        response = blackbox_ai(request)
+        sources, response = blackbox_ai(request)
         if len(response) >= 1970: # split response if it's more than the base discord limit
-            for line in response.split():
-                await message.channel.send(line)
+            chunks = [response[i:i+1800] for i in range(0, len(response), 1800)]
+            for chunk in chunks:
+                await message.channel.send(chunk)
         else:
             await message.channel.send(response)
+        await message.channel.send(sources)
 
 client.run(token)
