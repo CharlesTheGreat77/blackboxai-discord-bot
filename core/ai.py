@@ -61,11 +61,14 @@ def blackbox_ai(question: str) -> Optional[Tuple[str, str]]:
         'intercom-session-jlmqxicb': '',
         'intercom-device-id-jlmqxicb': '4b7495aa-20c0-4c64-95d2-cc4b88ab26cf'
     }
+    try:
+        response = requests.post('https://www.blackbox.ai/api/chat', headers=headers, cookies=cookies, json=data)
 
-    response = requests.post('https://www.blackbox.ai/api/chat', headers=headers, cookies=cookies, json=data)
+        match = re.search(r"Sources:(.*?)\n\n(.*)", response.text, re.DOTALL)
+        if match:
+            sources = match.group(1).strip()
+            response = match.group(2).strip()
+            return sources, response
 
-    match = re.search(r"Sources:(.*?)\n\n(.*)", response.text, re.DOTALL)
-    if match:
-        sources = match.group(1).strip()
-        response = match.group(2).strip()
-        return sources, response
+    except Exception as err:
+        return None, None # return none if error occurs 
